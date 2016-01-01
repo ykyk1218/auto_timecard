@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		6706B77B0DDC646F7567D3D9 /* Pods_auto_timecart.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 50D0087F510A786A7F39861C /* Pods_auto_timecart.framework */; };
 		6A13E3F61C301C5800173FAB /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A13E3F51C301C5800173FAB /* AppDelegate.swift */; };
 		6A13E3F81C301C5800173FAB /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A13E3F71C301C5800173FAB /* ViewController.swift */; };
 		6A13E3FB1C301C5800173FAB /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6A13E3F91C301C5800173FAB /* Main.storyboard */; };
@@ -34,6 +35,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		50D0087F510A786A7F39861C /* Pods_auto_timecart.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_auto_timecart.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		6A13E3F21C301C5800173FAB /* auto_timecart.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = auto_timecart.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6A13E3F51C301C5800173FAB /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		6A13E3F71C301C5800173FAB /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -47,6 +49,9 @@
 		6A13E4111C301C5900173FAB /* auto_timecartUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = auto_timecartUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		6A13E4151C301C5900173FAB /* auto_timecartUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = auto_timecartUITests.swift; sourceTree = "<group>"; };
 		6A13E4171C301C5900173FAB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		6AC220571C36EB79009B2468 /* Bridge-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Bridge-Header.h"; sourceTree = "<group>"; };
+		CF1B5B18FDF962DF78FDF036 /* Pods-auto_timecart.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-auto_timecart.debug.xcconfig"; path = "Pods/Target Support Files/Pods-auto_timecart/Pods-auto_timecart.debug.xcconfig"; sourceTree = "<group>"; };
+		DF07FB0798F0552474338018 /* Pods-auto_timecart.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-auto_timecart.release.xcconfig"; path = "Pods/Target Support Files/Pods-auto_timecart/Pods-auto_timecart.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -54,6 +59,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6706B77B0DDC646F7567D3D9 /* Pods_auto_timecart.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -81,6 +87,8 @@
 				6A13E4091C301C5900173FAB /* auto_timecartTests */,
 				6A13E4141C301C5900173FAB /* auto_timecartUITests */,
 				6A13E3F31C301C5800173FAB /* Products */,
+				FC40BD20020B6AFC4745D3C7 /* Pods */,
+				EF27F459089F8966CA06D5E0 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -103,6 +111,7 @@
 				6A13E3FC1C301C5800173FAB /* Assets.xcassets */,
 				6A13E3FE1C301C5800173FAB /* LaunchScreen.storyboard */,
 				6A13E4011C301C5800173FAB /* Info.plist */,
+				6AC220571C36EB79009B2468 /* Bridge-Header.h */,
 			);
 			path = auto_timecart;
 			sourceTree = "<group>";
@@ -125,6 +134,23 @@
 			path = auto_timecartUITests;
 			sourceTree = "<group>";
 		};
+		EF27F459089F8966CA06D5E0 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				50D0087F510A786A7F39861C /* Pods_auto_timecart.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		FC40BD20020B6AFC4745D3C7 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				CF1B5B18FDF962DF78FDF036 /* Pods-auto_timecart.debug.xcconfig */,
+				DF07FB0798F0552474338018 /* Pods-auto_timecart.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -132,9 +158,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 6A13E41A1C301C5900173FAB /* Build configuration list for PBXNativeTarget "auto_timecart" */;
 			buildPhases = (
+				62209572A5995052049E39DE /* Check Pods Manifest.lock */,
 				6A13E3EE1C301C5800173FAB /* Sources */,
 				6A13E3EF1C301C5800173FAB /* Frameworks */,
 				6A13E3F01C301C5800173FAB /* Resources */,
+				423A57495778ECAAC4AB1B8E /* Embed Pods Frameworks */,
+				4BDE7E40EEEC108251E9450C /* Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -252,6 +281,54 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		423A57495778ECAAC4AB1B8E /* Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-auto_timecart/Pods-auto_timecart-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		4BDE7E40EEEC108251E9450C /* Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-auto_timecart/Pods-auto_timecart-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		62209572A5995052049E39DE /* Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		6A13E3EE1C301C5800173FAB /* Sources */ = {
@@ -399,23 +476,29 @@
 		};
 		6A13E41B1C301C5900173FAB /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = CF1B5B18FDF962DF78FDF036 /* Pods-auto_timecart.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = auto_timecart/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.auto-timecart";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "";
 			};
 			name = Debug;
 		};
 		6A13E41C1C301C5900173FAB /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = DF07FB0798F0552474338018 /* Pods-auto_timecart.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = auto_timecart/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.auto-timecart";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "";
 			};
 			name = Release;
 		};
@@ -486,6 +569,7 @@
 				6A13E41C1C301C5900173FAB /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		6A13E41D1C301C5900173FAB /* Build configuration list for PBXNativeTarget "auto_timecartTests" */ = {
 			isa = XCConfigurationList;
@@ -494,6 +578,7 @@
 				6A13E41F1C301C5900173FAB /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		6A13E4201C301C5900173FAB /* Build configuration list for PBXNativeTarget "auto_timecartUITests" */ = {
 			isa = XCConfigurationList;
@@ -502,6 +587,7 @@
 				6A13E4221C301C5900173FAB /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
