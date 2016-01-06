@@ -15,6 +15,7 @@
 		6A13E4001C301C5800173FAB /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6A13E3FE1C301C5800173FAB /* LaunchScreen.storyboard */; };
 		6A13E40B1C301C5900173FAB /* auto_timecartTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A13E40A1C301C5900173FAB /* auto_timecartTests.swift */; };
 		6A13E4161C301C5900173FAB /* auto_timecartUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A13E4151C301C5900173FAB /* auto_timecartUITests.swift */; };
+		6AC1DB651C3D2914008CE4C2 /* UserRegistViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AC1DB641C3D2914008CE4C2 /* UserRegistViewController.swift */; settings = {ASSET_TAGS = (); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -49,6 +50,7 @@
 		6A13E4111C301C5900173FAB /* auto_timecartUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = auto_timecartUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		6A13E4151C301C5900173FAB /* auto_timecartUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = auto_timecartUITests.swift; sourceTree = "<group>"; };
 		6A13E4171C301C5900173FAB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		6AC1DB641C3D2914008CE4C2 /* UserRegistViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserRegistViewController.swift; sourceTree = "<group>"; };
 		6AC220571C36EB79009B2468 /* Bridge-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Bridge-Header.h"; sourceTree = "<group>"; };
 		CF1B5B18FDF962DF78FDF036 /* Pods-auto_timecart.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-auto_timecart.debug.xcconfig"; path = "Pods/Target Support Files/Pods-auto_timecart/Pods-auto_timecart.debug.xcconfig"; sourceTree = "<group>"; };
 		DF07FB0798F0552474338018 /* Pods-auto_timecart.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-auto_timecart.release.xcconfig"; path = "Pods/Target Support Files/Pods-auto_timecart/Pods-auto_timecart.release.xcconfig"; sourceTree = "<group>"; };
@@ -112,6 +114,7 @@
 				6A13E3FE1C301C5800173FAB /* LaunchScreen.storyboard */,
 				6A13E4011C301C5800173FAB /* Info.plist */,
 				6AC220571C36EB79009B2468 /* Bridge-Header.h */,
+				6AC1DB641C3D2914008CE4C2 /* UserRegistViewController.swift */,
 			);
 			path = auto_timecart;
 			sourceTree = "<group>";
@@ -337,6 +340,7 @@
 			files = (
 				6A13E3F81C301C5800173FAB /* ViewController.swift in Sources */,
 				6A13E3F61C301C5800173FAB /* AppDelegate.swift in Sources */,
+				6AC1DB651C3D2914008CE4C2 /* UserRegistViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
