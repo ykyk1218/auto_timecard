@@ -10,6 +10,8 @@ import UIKit
 import CoreLocation
 import SwiftyJSON
 import Alamofire
+import CorePlot
+import Download_Font_iOS
 
 extension UIColor {
     class func hex (var hexStr : NSString, let alpha : CGFloat) -> UIColor {
@@ -43,7 +45,7 @@ extension UIView{
 }
 
 
-class ViewController: UIViewController, CLLocationManagerDelegate, NSURLSessionDelegate, NSURLSessionDataDelegate {
+class ViewController: UIViewController, CLLocationManagerDelegate, NSURLSessionDelegate, NSURLSessionDataDelegate, CPTPieChartDataSource, CPTPieChartDelegate {
     
     private var locationManager: CLLocationManager!
     private var beaconRegion: CLBeaconRegion!
@@ -67,21 +69,34 @@ class ViewController: UIViewController, CLLocationManagerDelegate, NSURLSessionD
     private let lblStatus = UILabel()
     
     private var alamoManager : Manager?
+    private let hostingView = CPTGraphHostingView()
     
-    
+    private let pieChart = CPTPieChart()
+    private var pieChartData = NSMutableArray()
+    private var chartTitle = ["通常勤務時間", "残業時間", "深夜残業時間"]
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.pieChartData = [180.0, 30.0, 4.0]
         
-        let baseY: CGFloat = 200.0
-        self.view.backgroundColor = UIColor.hex("26a4df", alpha: 0.8)
+
+        
+        /*
+        DBLDownloadFont.setFontNameWithBlock({ (success: Bool, error:String!) -> Void in
+            print(error)
+        }, fontName: "ヒラギノ角ゴ ProN W6")
+        var graph = CPTXYGraph(frame: CGRectZero)
+        */
+        
+        let baseY: CGFloat = 120.0
+        self.view.backgroundColor = UIColor.hex("00FFFF", alpha: 0.8)
         
         /*********************/
         
         //出勤時間と退勤時間を取得するAPIを実行
         
         lblTitle.frame = CGRectMake(0, 15, self.view.bounds.width, 100)
-        lblTitle.text = "タイムくん"
+        lblTitle.text = "オートタイムカード"
         lblTitle.textColor = UIColor.whiteColor()
         lblTitle.font = UIFont(name: "ヒラギノ角ゴ ProN W6",size: 25)
         
@@ -98,29 +113,74 @@ class ViewController: UIViewController, CLLocationManagerDelegate, NSURLSessionD
         lblAttendanceTime.font = UIFont(name: "ヒラギノ角ゴ ProN W6",size: 25)
         
         lblClockout.frame = CGRectMake(0, 0, 200, 100)
-        lblClockout.center = CGPointMake(self.view.bounds.width/2-30, baseY+150)
+        lblClockout.center = CGPointMake(self.view.bounds.width/2-30, baseY+50)
         lblClockout.text = "退勤時間"
         lblClockout.textColor = UIColor.whiteColor()
         lblClockout.font = UIFont(name: "ヒラギノ角ゴ ProN W6",size: 25)
         
         lblClockoutTime.frame = CGRectMake(0, 0, 200, 100)
-        lblClockoutTime.center = CGPointMake(self.view.bounds.width/2+100, baseY + 150)
+        lblClockoutTime.center = CGPointMake(self.view.bounds.width/2+100, baseY+50)
         lblClockoutTime.text = "--:--"
         lblClockoutTime.textColor = UIColor.whiteColor()
         lblClockoutTime.font = UIFont(name: "ヒラギノ角ゴ ProN W6",size: 25)
         
+        /*
         lblStatus.frame = CGRectMake(0, 0, 200, 100)
         lblStatus.center = CGPointMake(self.view.bounds.width/2, baseY + 250)
         lblStatus.text = "ビーコン領域内 or 外"
         lblStatus.textColor = UIColor.whiteColor()
         lblStatus.font = UIFont(name: "ヒラギノ角ゴ ProN W6",size: 25)
+        */
+        
+        
+        hostingView.frame = CGRectMake(0, 0, self.view.bounds.width-5, 280)
+        hostingView.center = CGPointMake(self.view.bounds.width/2, baseY+250)
+        //hostingView.backgroundColor = UIColor.whiteColor()
+        //hostingView.center = CGPointMake(self.view.bounds.width/2, baseY + 70)
+        let graph = CPTXYGraph(frame:CGRectZero)
+        graph.paddingTop = 10.0
+        //graph.title = ""
+        graph.axisSet = nil
+        graph.titlePlotAreaFrameAnchor = CPTRectAnchor.Top
+        graph.plotAreaFrame?.paddingBottom = 10.0
+        graph.plotAreaFrame?.paddingTop = 10.0
+        
+        //グラフの大きさ
+        self.pieChart.pieRadius = 70.0
+        
+        self.pieChart.dataSource = self
+        self.pieChart.delegate = self
+        
+        //self.pieChart.centerAnchor = CGPoint(x: 100,y: 100)
+        //self.pieChart.frame = CGRectMake(5,5,70,110)
+
+
+        graph.addPlot(pieChart)
+
+        //graph.frame = hostingView.bounds
+        hostingView.hostedGraph = graph
+        
+        
+        let theLegend = CPTLegend(graph: graph)
+        theLegend.numberOfColumns = 3
+        theLegend.fill = CPTFill(color: CPTColor.whiteColor())
+        theLegend.borderLineStyle = CPTLineStyle()
+        theLegend.borderWidth = 1
+        theLegend.borderColor = UIColor.hex("efefef", alpha: 1).CGColor
+        theLegend.cornerRadius = 3.0
+        
+        graph.legend = theLegend
+        graph.legendAnchor = CPTRectAnchor.Right
+        graph.legendDisplacement = CGPointMake(-10, 100)
+        
         
         self.view.addSubview(lblTitle)
         self.view.addSubview(lblAttendance)
         self.view.addSubview(lblAttendanceTime)
         self.view.addSubview(lblClockout)
         self.view.addSubview(lblClockoutTime)
-        self.view.addSubview(lblStatus)
+        //self.view.addSubview(lblStatus)
+        self.view.addSubview(hostingView)
             
         //Notificationのおまじない
         //通知をキャンセル
@@ -129,9 +189,23 @@ class ViewController: UIViewController, CLLocationManagerDelegate, NSURLSessionD
         self.locationManager = CLLocationManager()
         self.locationManager.delegate = self
         self.locationManager.requestAlwaysAuthorization()
+        
+        
+        addAnimation(pieChart)
     }
     
 
+    func addAnimation(plot:CPTPieChart) {
+        let duration = CGFloat(1.5) // アニメーションの時間
+        let curve = CPTAnimationCurve.ExponentialInOut // アニメーションカーブ
+        CPTAnimation.animate(plot,
+            property: "endAngle",
+            from:CGFloat(M_PI / 2.0) + CGFloat(M_PI * 2.0),
+            to: CGFloat(M_PI / 2.0),
+            duration: CGFloat(1.5),
+            animationCurve: curve,
+            delegate: nil)
+    }
 
     //ビーコンの領域にはいった時に呼ばれるデリゲートメソッド
     func locationManager(manager: CLLocationManager, didEnterRegion region: CLRegion) {
@@ -164,6 +238,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate, NSURLSessionD
                         UIApplication.sharedApplication().scheduleLocalNotification(notification)
                         
                     }else{
+                        /*
                         let alert:UIAlertController = UIAlertController(title: "出勤", message: "おはようございます！", preferredStyle: UIAlertControllerStyle.Alert)
                         let alertAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: {
                             (action:UIAlertAction!) -> Void in
@@ -173,6 +248,8 @@ class ViewController: UIViewController, CLLocationManagerDelegate, NSURLSessionD
                             // 表示完了時の処理
                         })
                         alert.addAction(alertAction)
+                        */
+                        SweetAlert().showAlert("出勤", subTitle: "おはようございます！", style: AlertStyle.Success)
 
                     }
                     
@@ -216,6 +293,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate, NSURLSessionD
                     notification.soundName = UILocalNotificationDefaultSoundName
                     UIApplication.sharedApplication().scheduleLocalNotification(notification)
                 }else{
+                    /*
                     let alert:UIAlertController = UIAlertController(title: "退勤", message: "お疲れ様でした", preferredStyle: UIAlertControllerStyle.Alert)
                     let alertAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: {
                         (action:UIAlertAction!) -> Void in
@@ -225,6 +303,8 @@ class ViewController: UIViewController, CLLocationManagerDelegate, NSURLSessionD
                         // 表示完了時の処理
                     })
                     alert.addAction(alertAction)
+                    */
+                    SweetAlert().showAlert("退勤", subTitle: "お疲れ様でした", style: AlertStyle.Success)
                 }
                 
                 let clockoutTime = self.getCunnrentTime()
@@ -393,6 +473,55 @@ class ViewController: UIViewController, CLLocationManagerDelegate, NSURLSessionD
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
+    
+    func numberOfRecordsForPlot(plot: CPTPlot) -> UInt {
+        print("hoge")
+        return UInt(self.pieChartData.count)
+    }
+    
+    func numberForPlot(plot: CPTPlot, field fieldEnum: UInt, recordIndex idx: UInt) -> AnyObject? {
+        print(self.pieChartData.objectAtIndex(Int(idx)))
+        return self.pieChartData.objectAtIndex(Int(idx))
+    }
+    
+    /*
+    func dataForPlot(plot: CPTPlot, recordIndexRange indexRange: NSRange) -> CPTNumericData? {
+        //グラフのラベル設定（らしい）
+        return "hoge"
+    }
+    */
+    
+    /*
+    func radialOffsetForPieChart(pieChart: CPTPieChart, recordIndex idx: UInt) -> CGFloat {
+        var offset:CGFloat = 0.0
+        if (idx == 0) {
+            offset = pieChart.pieRadius / 8.0
+        }
+        return offset
+    }
+    */
+    
+    func legendTitleForPieChart(pieChart: CPTPieChart, recordIndex idx: UInt) -> String? {
+        return self.chartTitle[Int(idx)]
+        
+    }
+    
+    func sliceFillForPieChart(pieChart: CPTPieChart, recordIndex idx: UInt) -> CPTFill? {
+        var areaGradientFill: CPTFill = CPTFill()
+        
+        if(idx == 0) {
+            areaGradientFill = CPTFill(color: CPTColor(componentRed: 0.573, green: 1.0, blue: 0.88, alpha: 1.0))
+        }else if(idx == 1) {
+            areaGradientFill = CPTFill(color: CPTColor(componentRed: 0.8, green: 0.7, blue: 0.6, alpha: 1.0))
+        }else if(idx == 2) {
+            areaGradientFill = CPTFill(color: CPTColor(componentRed: 0.6, green: 0.6, blue: 0.8, alpha: 1.0))
+        }
+        return areaGradientFill
+
+    }
+    
+    
+
 
 
 }

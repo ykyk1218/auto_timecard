@@ -7,6 +7,7 @@ target 'auto_timecart' do
   pod 'Alamofire'
   pod 'SwiftyJSON'
   pod 'Download-Font-iOS'
+  pod 'CorePlot'
 end
 
 target 'auto_timecartTests' do

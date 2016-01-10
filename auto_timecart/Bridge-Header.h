@@ -9,5 +9,6 @@
 #define Bridge_Header_h
 
 #import "DBLDownloadFont.h"
+#import "CorePlot-CocoaTouch.h"
 
 #endif /* Bridge_Header_h */

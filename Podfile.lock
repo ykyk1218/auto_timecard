@@ -1,15 +1,18 @@
 PODS:
   - Alamofire (3.1.4)
+  - CorePlot (2.0)
   - Download-Font-iOS (1.0.0)
   - SwiftyJSON (2.3.2)
 
 DEPENDENCIES:
   - Alamofire
+  - CorePlot
   - Download-Font-iOS
   - SwiftyJSON
 
 SPEC CHECKSUMS:
   Alamofire: fbc829692f351fa1d8a31dd75fd7f7f56fea31fb
+  CorePlot: b7f422ad363f2b0e48152471d6da45ce232eb8c6
   Download-Font-iOS: dd03455f94fc9c59447e666ece6ae4776ef6e797
   SwiftyJSON: 04ccea08915aa0109039157c7974cf0298da292a
 
