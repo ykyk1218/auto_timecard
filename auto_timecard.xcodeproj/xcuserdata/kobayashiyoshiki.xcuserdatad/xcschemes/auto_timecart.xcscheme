@@ -15,9 +15,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "6A13E3F11C301C5800173FAB"
-               BuildableName = "auto_timecart.app"
-               BlueprintName = "auto_timecart"
-               ReferencedContainer = "container:auto_timecart.xcodeproj">
+               BuildableName = "auto_timecard.app"
+               BlueprintName = "auto_timecard"
+               ReferencedContainer = "container:auto_timecard.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -33,9 +33,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "6A13E4051C301C5900173FAB"
-               BuildableName = "auto_timecartTests.xctest"
-               BlueprintName = "auto_timecartTests"
-               ReferencedContainer = "container:auto_timecart.xcodeproj">
+               BuildableName = "auto_timecard.xctest"
+               BlueprintName = "auto_timecardTests"
+               ReferencedContainer = "container:auto_timecard.xcodeproj">
             </BuildableReference>
          </TestableReference>
          <TestableReference
@@ -43,9 +43,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "6A13E4101C301C5900173FAB"
-               BuildableName = "auto_timecartUITests.xctest"
-               BlueprintName = "auto_timecartUITests"
-               ReferencedContainer = "container:auto_timecart.xcodeproj">
+               BuildableName = "auto_timecard.xctest"
+               BlueprintName = "auto_timecardUITests"
+               ReferencedContainer = "container:auto_timecard.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>
@@ -53,9 +53,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "6A13E3F11C301C5800173FAB"
-            BuildableName = "auto_timecart.app"
-            BlueprintName = "auto_timecart"
-            ReferencedContainer = "container:auto_timecart.xcodeproj">
+            BuildableName = "auto_timecard.app"
+            BlueprintName = "auto_timecard"
+            ReferencedContainer = "container:auto_timecard.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
       <AdditionalOptions>
@@ -76,9 +76,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "6A13E3F11C301C5800173FAB"
-            BuildableName = "auto_timecart.app"
-            BlueprintName = "auto_timecart"
-            ReferencedContainer = "container:auto_timecart.xcodeproj">
+            BuildableName = "auto_timecard.app"
+            BlueprintName = "auto_timecard"
+            ReferencedContainer = "container:auto_timecard.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
       <AdditionalOptions>
@@ -95,9 +95,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "6A13E3F11C301C5800173FAB"
-            BuildableName = "auto_timecart.app"
-            BlueprintName = "auto_timecart"
-            ReferencedContainer = "container:auto_timecart.xcodeproj">
+            BuildableName = "auto_timecard.app"
+            BlueprintName = "auto_timecard"
+            ReferencedContainer = "container:auto_timecard.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>

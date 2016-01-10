@@ -2,7 +2,7 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "group:auto_timecart.xcodeproj">
+      location = "group:/Users/kobayashiyoshiki/projects/auto_timecart/auto_timecard.xcodeproj">
    </FileRef>
    <FileRef
       location = "group:Pods/Pods.xcodeproj">

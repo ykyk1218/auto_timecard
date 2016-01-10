@@ -39,17 +39,17 @@
 
 /* Begin PBXFileReference section */
 		50D0087F510A786A7F39861C /* Pods_auto_timecart.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_auto_timecart.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		6A13E3F21C301C5800173FAB /* auto_timecart.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = auto_timecart.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		6A13E3F21C301C5800173FAB /* auto_timecard.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = auto_timecard.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6A13E3F51C301C5800173FAB /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		6A13E3F71C301C5800173FAB /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		6A13E3FA1C301C5800173FAB /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		6A13E3FC1C301C5800173FAB /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		6A13E3FF1C301C5800173FAB /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		6A13E4011C301C5800173FAB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		6A13E4061C301C5900173FAB /* auto_timecartTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = auto_timecartTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		6A13E4061C301C5900173FAB /* auto_timecard.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = auto_timecard.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		6A13E40A1C301C5900173FAB /* auto_timecartTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = auto_timecartTests.swift; sourceTree = "<group>"; };
 		6A13E40C1C301C5900173FAB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		6A13E4111C301C5900173FAB /* auto_timecartUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = auto_timecartUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		6A13E4111C301C5900173FAB /* auto_timecard.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = auto_timecard.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		6A13E4151C301C5900173FAB /* auto_timecartUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = auto_timecartUITests.swift; sourceTree = "<group>"; };
 		6A13E4171C301C5900173FAB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		6AB28BC81C4169480011C565 /* SweetAlert.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SweetAlert.swift; sourceTree = "<group>"; };
@@ -102,9 +102,9 @@
 		6A13E3F31C301C5800173FAB /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				6A13E3F21C301C5800173FAB /* auto_timecart.app */,
-				6A13E4061C301C5900173FAB /* auto_timecartTests.xctest */,
-				6A13E4111C301C5900173FAB /* auto_timecartUITests.xctest */,
+				6A13E3F21C301C5800173FAB /* auto_timecard.app */,
+				6A13E4061C301C5900173FAB /* auto_timecard.xctest */,
+				6A13E4111C301C5900173FAB /* auto_timecard.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -164,9 +164,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		6A13E3F11C301C5800173FAB /* auto_timecart */ = {
+		6A13E3F11C301C5800173FAB /* auto_timecard */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 6A13E41A1C301C5900173FAB /* Build configuration list for PBXNativeTarget "auto_timecart" */;
+			buildConfigurationList = 6A13E41A1C301C5900173FAB /* Build configuration list for PBXNativeTarget "auto_timecard" */;
 			buildPhases = (
 				62209572A5995052049E39DE /* Check Pods Manifest.lock */,
 				6A13E3EE1C301C5800173FAB /* Sources */,
@@ -179,14 +179,14 @@
 			);
 			dependencies = (
 			);
-			name = auto_timecart;
+			name = auto_timecard;
 			productName = auto_timecart;
-			productReference = 6A13E3F21C301C5800173FAB /* auto_timecart.app */;
+			productReference = 6A13E3F21C301C5800173FAB /* auto_timecard.app */;
 			productType = "com.apple.product-type.application";
 		};
-		6A13E4051C301C5900173FAB /* auto_timecartTests */ = {
+		6A13E4051C301C5900173FAB /* auto_timecardTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 6A13E41D1C301C5900173FAB /* Build configuration list for PBXNativeTarget "auto_timecartTests" */;
+			buildConfigurationList = 6A13E41D1C301C5900173FAB /* Build configuration list for PBXNativeTarget "auto_timecardTests" */;
 			buildPhases = (
 				6A13E4021C301C5900173FAB /* Sources */,
 				6A13E4031C301C5900173FAB /* Frameworks */,
@@ -197,14 +197,14 @@
 			dependencies = (
 				6A13E4081C301C5900173FAB /* PBXTargetDependency */,
 			);
-			name = auto_timecartTests;
+			name = auto_timecardTests;
 			productName = auto_timecartTests;
-			productReference = 6A13E4061C301C5900173FAB /* auto_timecartTests.xctest */;
+			productReference = 6A13E4061C301C5900173FAB /* auto_timecard.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
-		6A13E4101C301C5900173FAB /* auto_timecartUITests */ = {
+		6A13E4101C301C5900173FAB /* auto_timecardUITests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 6A13E4201C301C5900173FAB /* Build configuration list for PBXNativeTarget "auto_timecartUITests" */;
+			buildConfigurationList = 6A13E4201C301C5900173FAB /* Build configuration list for PBXNativeTarget "auto_timecardUITests" */;
 			buildPhases = (
 				6A13E40D1C301C5900173FAB /* Sources */,
 				6A13E40E1C301C5900173FAB /* Frameworks */,
@@ -215,9 +215,9 @@
 			dependencies = (
 				6A13E4131C301C5900173FAB /* PBXTargetDependency */,
 			);
-			name = auto_timecartUITests;
+			name = auto_timecardUITests;
 			productName = auto_timecartUITests;
-			productReference = 6A13E4111C301C5900173FAB /* auto_timecartUITests.xctest */;
+			productReference = 6A13E4111C301C5900173FAB /* auto_timecard.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
 		};
 /* End PBXNativeTarget section */
@@ -245,7 +245,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 6A13E3ED1C301C5800173FAB /* Build configuration list for PBXProject "auto_timecart" */;
+			buildConfigurationList = 6A13E3ED1C301C5800173FAB /* Build configuration list for PBXProject "auto_timecard" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -258,9 +258,9 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				6A13E3F11C301C5800173FAB /* auto_timecart */,
-				6A13E4051C301C5900173FAB /* auto_timecartTests */,
-				6A13E4101C301C5900173FAB /* auto_timecartUITests */,
+				6A13E3F11C301C5800173FAB /* auto_timecard */,
+				6A13E4051C301C5900173FAB /* auto_timecardTests */,
+				6A13E4101C301C5900173FAB /* auto_timecardUITests */,
 			);
 		};
 /* End PBXProject section */
@@ -373,12 +373,12 @@
 /* Begin PBXTargetDependency section */
 		6A13E4081C301C5900173FAB /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 6A13E3F11C301C5800173FAB /* auto_timecart */;
+			target = 6A13E3F11C301C5800173FAB /* auto_timecard */;
 			targetProxy = 6A13E4071C301C5900173FAB /* PBXContainerItemProxy */;
 		};
 		6A13E4131C301C5900173FAB /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 6A13E3F11C301C5800173FAB /* auto_timecart */;
+			target = 6A13E3F11C301C5800173FAB /* auto_timecard */;
 			targetProxy = 6A13E4121C301C5900173FAB /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -439,7 +439,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -480,7 +480,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				SWIFT_OBJC_BRIDGING_HEADER = "/Users/kobayashiyoshiki/projects/auto_timecart/auto_timecart/Bridge-Header.h";
@@ -498,7 +498,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.auto-timecart";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = auto_timecard;
 				SWIFT_OBJC_BRIDGING_HEADER = "";
 			};
 			name = Debug;
@@ -512,7 +512,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.auto-timecart";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = auto_timecard;
 				SWIFT_OBJC_BRIDGING_HEADER = "";
 			};
 			name = Release;
@@ -524,8 +524,8 @@
 				INFOPLIST_FILE = auto_timecartTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.auto-timecartTests";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/auto_timecart.app/auto_timecart";
+				PRODUCT_NAME = auto_timecard;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/auto_timecard.app/auto_timecard";
 			};
 			name = Debug;
 		};
@@ -536,8 +536,8 @@
 				INFOPLIST_FILE = auto_timecartTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.auto-timecartTests";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/auto_timecart.app/auto_timecart";
+				PRODUCT_NAME = auto_timecard;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/auto_timecard.app/auto_timecard";
 			};
 			name = Release;
 		};
@@ -547,7 +547,7 @@
 				INFOPLIST_FILE = auto_timecartUITests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.auto-timecartUITests";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = auto_timecard;
 				"SWIFT_OBJC_BRIDGING_HEADER[arch=*]" = "";
 				TEST_TARGET_NAME = auto_timecart;
 				USES_XCTRUNNER = YES;
@@ -560,7 +560,7 @@
 				INFOPLIST_FILE = auto_timecartUITests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.auto-timecartUITests";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = auto_timecard;
 				TEST_TARGET_NAME = auto_timecart;
 				USES_XCTRUNNER = YES;
 			};
@@ -569,7 +569,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		6A13E3ED1C301C5800173FAB /* Build configuration list for PBXProject "auto_timecart" */ = {
+		6A13E3ED1C301C5800173FAB /* Build configuration list for PBXProject "auto_timecard" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				6A13E4181C301C5900173FAB /* Debug */,
@@ -578,7 +578,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		6A13E41A1C301C5900173FAB /* Build configuration list for PBXNativeTarget "auto_timecart" */ = {
+		6A13E41A1C301C5900173FAB /* Build configuration list for PBXNativeTarget "auto_timecard" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				6A13E41B1C301C5900173FAB /* Debug */,
@@ -587,7 +587,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		6A13E41D1C301C5900173FAB /* Build configuration list for PBXNativeTarget "auto_timecartTests" */ = {
+		6A13E41D1C301C5900173FAB /* Build configuration list for PBXNativeTarget "auto_timecardTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				6A13E41E1C301C5900173FAB /* Debug */,
@@ -596,7 +596,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		6A13E4201C301C5900173FAB /* Build configuration list for PBXNativeTarget "auto_timecartUITests" */ = {
+		6A13E4201C301C5900173FAB /* Build configuration list for PBXNativeTarget "auto_timecardUITests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				6A13E4211C301C5900173FAB /* Debug */,
