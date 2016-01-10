@@ -78,18 +78,6 @@ class UserRegistViewController: UIViewController, UITextFieldDelegate {
     func regist() {
         let email = txtEmail.text
         if(email == nil || email!.isEmpty){
-            /*
-            let alert:UIAlertController = UIAlertController(title: "入力エラー", message: "メールアドレスが空です", preferredStyle: UIAlertControllerStyle.Alert)
-            let alertAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: {
-                (action:UIAlertAction!) -> Void in
-                print("default")
-            })
-            self.presentViewController(alert, animated: true, completion: {
-                // 表示完了時の処理
-            })
-            alert.addAction(alertAction)
-                
-            */
             SweetAlert().showAlert("入力エラー", subTitle: "メールアドレスが空です", style: AlertStyle.Warning)
             
         }else{

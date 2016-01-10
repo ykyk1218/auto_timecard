@@ -45,21 +45,16 @@ extension UIView{
 }
 
 
-class ViewController: UIViewController, CLLocationManagerDelegate, NSURLSessionDelegate, NSURLSessionDataDelegate, CPTPieChartDataSource, CPTPieChartDelegate {
+class ViewController: UIViewController, CLLocationManagerDelegate, NSURLSessionDelegate, NSURLSessionDataDelegate {
     
     private var locationManager: CLLocationManager!
     private var beaconRegion: CLBeaconRegion!
     
     private var attendanceFlg = false
     private var clockoutFlg   = false
-    private var didEnterFlg   = false
-    private var didExit       = false
     
-    //private let checkUrl = "http://tc.basicinc.jp/api/check.php?email=kobayashi@basicinc.jp"
-    private let attendanceUrl = "http://tc.basicinc.jp/api/attendance.php?email=kobayashi@basicinc.jp"
-    private let isAttendUrl   = "http://tc.basicinc.jp/api/is_attend.php?email=kobayashi@basicinc.jp"
-    private let clockoutUrl   = "http://tc.basicinc.jp/api/clock_out.php?email=kobayashi@basicinc.jp"
-    
+    private var didEnterRegionFlg = false
+    private var didExitRegionFlg  = false
     
     private let lblTitle = UILabel()
     private let lblAttendance = UILabel()
@@ -68,19 +63,12 @@ class ViewController: UIViewController, CLLocationManagerDelegate, NSURLSessionD
     private let lblClockoutTime = UILabel()
     private let lblStatus = UILabel()
     
-    private var alamoManager : Manager?
-    private let hostingView = CPTGraphHostingView()
+    private let timecardModel = TimecardModel()
     
-    private let pieChart = CPTPieChart()
-    private var pieChartData = NSMutableArray()
-    private var chartTitle = ["通常勤務時間", "残業時間", "深夜残業時間"]
+    let defaults = NSUserDefaults.standardUserDefaults()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.pieChartData = [180.0, 30.0, 4.0]
-        
-
-        
         /*
         DBLDownloadFont.setFontNameWithBlock({ (success: Bool, error:String!) -> Void in
             print(error)
@@ -132,47 +120,10 @@ class ViewController: UIViewController, CLLocationManagerDelegate, NSURLSessionD
         lblStatus.font = UIFont(name: "ヒラギノ角ゴ ProN W6",size: 25)
         */
         
-        
-        hostingView.frame = CGRectMake(0, 0, self.view.bounds.width-5, 280)
-        hostingView.center = CGPointMake(self.view.bounds.width/2, baseY+250)
-        //hostingView.backgroundColor = UIColor.whiteColor()
-        //hostingView.center = CGPointMake(self.view.bounds.width/2, baseY + 70)
-        let graph = CPTXYGraph(frame:CGRectZero)
-        graph.paddingTop = 10.0
-        //graph.title = ""
-        graph.axisSet = nil
-        graph.titlePlotAreaFrameAnchor = CPTRectAnchor.Top
-        graph.plotAreaFrame?.paddingBottom = 10.0
-        graph.plotAreaFrame?.paddingTop = 10.0
-        
-        //グラフの大きさ
-        self.pieChart.pieRadius = 70.0
-        
-        self.pieChart.dataSource = self
-        self.pieChart.delegate = self
-        
-        //self.pieChart.centerAnchor = CGPoint(x: 100,y: 100)
-        //self.pieChart.frame = CGRectMake(5,5,70,110)
-
-
-        graph.addPlot(pieChart)
-
-        //graph.frame = hostingView.bounds
-        hostingView.hostedGraph = graph
-        
-        
-        let theLegend = CPTLegend(graph: graph)
-        theLegend.numberOfColumns = 3
-        theLegend.fill = CPTFill(color: CPTColor.whiteColor())
-        theLegend.borderLineStyle = CPTLineStyle()
-        theLegend.borderWidth = 1
-        theLegend.borderColor = UIColor.hex("efefef", alpha: 1).CGColor
-        theLegend.cornerRadius = 3.0
-        
-        graph.legend = theLegend
-        graph.legendAnchor = CPTRectAnchor.Right
-        graph.legendDisplacement = CGPointMake(-10, 100)
-        
+        //グラフViewの表示
+        let timecardGraph = TimecardGraphView()
+        timecardGraph.frame = CGRectMake(0, 0, UIScreen.mainScreen().bounds.size.width-5, 280)
+        timecardGraph.center = CGPointMake(UIScreen.mainScreen().bounds.size.width/2, baseY+250)
         
         self.view.addSubview(lblTitle)
         self.view.addSubview(lblAttendance)
@@ -180,7 +131,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate, NSURLSessionD
         self.view.addSubview(lblClockout)
         self.view.addSubview(lblClockoutTime)
         //self.view.addSubview(lblStatus)
-        self.view.addSubview(hostingView)
+        self.view.addSubview(timecardGraph)
             
         //Notificationのおまじない
         //通知をキャンセル
@@ -189,130 +140,49 @@ class ViewController: UIViewController, CLLocationManagerDelegate, NSURLSessionD
         self.locationManager = CLLocationManager()
         self.locationManager.delegate = self
         self.locationManager.requestAlwaysAuthorization()
-        
-        
-        addAnimation(pieChart)
     }
     
-
-    func addAnimation(plot:CPTPieChart) {
-        let duration = CGFloat(1.5) // アニメーションの時間
-        let curve = CPTAnimationCurve.ExponentialInOut // アニメーションカーブ
-        CPTAnimation.animate(plot,
-            property: "endAngle",
-            from:CGFloat(M_PI / 2.0) + CGFloat(M_PI * 2.0),
-            to: CGFloat(M_PI / 2.0),
-            duration: CGFloat(1.5),
-            animationCurve: curve,
-            delegate: nil)
-    }
-
     //ビーコンの領域にはいった時に呼ばれるデリゲートメソッド
     func locationManager(manager: CLLocationManager, didEnterRegion region: CLRegion) {
         print("didEnterRegion")
-        if(self.didEnterFlg) {
-            //2重呼び出し防止
+        if(self.didEnterRegionFlg) {
+            //デリゲートメソッドの2重呼び出し防止
+            print("2重呼び出し防止")
             return
         }
         self.locationManager.startRangingBeaconsInRegion(self.beaconRegion)
-        self.didEnterFlg = true
+        self.didEnterRegionFlg = true
         
-        //出勤時間が既に登録されていれば登録しない
-        let params = ["email": "kobayashi@basicinc.jp"]
-        self.callApi(self.isAttendUrl, params: params) {(data)->() in
-            let str: String = String(data:data, encoding:NSUTF8StringEncoding)!
-            print(str)
-            //if(str == "false") {
-                //API実行して登録
-                self.callApi(self.attendanceUrl, params: params) { (data)->() in
-                    
-                    if(UIApplication.sharedApplication().applicationState == UIApplicationState.Background) {
-                        //let json = SwiftyJSON.JSON(data: data)
-                        UIApplication.sharedApplication().cancelAllLocalNotifications()
-                        let notification = UILocalNotification()
-                        notification.fireDate = NSDate(timeIntervalSinceNow: 1)
-                        notification.timeZone = NSTimeZone.defaultTimeZone()
-                        notification.alertBody = "おはようございます！"
-                        notification.alertAction = "OK"
-                        notification.soundName = UILocalNotificationDefaultSoundName
-                        UIApplication.sharedApplication().scheduleLocalNotification(notification)
-                        
-                    }else{
-                        /*
-                        let alert:UIAlertController = UIAlertController(title: "出勤", message: "おはようございます！", preferredStyle: UIAlertControllerStyle.Alert)
-                        let alertAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: {
-                            (action:UIAlertAction!) -> Void in
-                                print("default")
-                        })
-                        self.presentViewController(alert, animated: true, completion: {
-                            // 表示完了時の処理
-                        })
-                        alert.addAction(alertAction)
-                        */
-                        SweetAlert().showAlert("出勤", subTitle: "おはようございます！", style: AlertStyle.Success)
-
-                    }
-                    
-                    let attendanceTime = self.getCunnrentTime()
-                    self.lblAttendanceTime.text = attendanceTime
-                    
-                    self.attendanceFlg = true
-                    self.didEnterFlg = false
-                }
-            //}
+        let params = ["email": defaults.objectForKey("email")!]
+        self.timecardModel.attendance(params) {()->() in
             
+            let attendanceTime = self.getCunnrentTime()
+            self.lblAttendanceTime.text = attendanceTime
+            
+            self.attendanceFlg = true
+            self.didEnterRegionFlg = false
         }
-       
     }
     
     //ビーコン領域から外に出た後に呼ばれるデリゲートメソッド
     //領域外にでてから30秒後ぐらいに実行される
     func locationManager(manager: CLLocationManager, didExitRegion region: CLRegion) {
         print("didExitRegion")
-        if(self.didExit) {
-            //2重呼び出し防止
+        if(self.didExitRegionFlg) {
+            //デリゲートメソッドの2重呼び出し防止
             return
         }
         self.locationManager.stopRangingBeaconsInRegion(self.beaconRegion)
-        self.didExit = true
+        self.didExitRegionFlg = true
         
-        //出勤チェック
-        let params = ["email": "kobayashi@basicinc.jp"]
-        self.callApi(self.isAttendUrl, params: params) {(data)->() in
-        
-            //18時半以降、1時間たっても戻ってこなければタイムカードに退勤時間を登録する
-            self.callApi(self.clockoutUrl, params: ["email": "kobayashi@basicinc.jp"]) { (data)->() in
-                
-                if(UIApplication.sharedApplication().applicationState == UIApplicationState.Background) {
-                    UIApplication.sharedApplication().cancelAllLocalNotifications()
-                    let notification = UILocalNotification()
-                    notification.fireDate = NSDate(timeIntervalSinceNow: 1)
-                    notification.timeZone = NSTimeZone.defaultTimeZone()
-                    notification.alertBody = "お疲れ様でした"
-                    notification.alertAction = "OK"
-                    notification.soundName = UILocalNotificationDefaultSoundName
-                    UIApplication.sharedApplication().scheduleLocalNotification(notification)
-                }else{
-                    /*
-                    let alert:UIAlertController = UIAlertController(title: "退勤", message: "お疲れ様でした", preferredStyle: UIAlertControllerStyle.Alert)
-                    let alertAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: {
-                        (action:UIAlertAction!) -> Void in
-                        print("default")
-                    })
-                    self.presentViewController(alert, animated: true, completion: {
-                        // 表示完了時の処理
-                    })
-                    alert.addAction(alertAction)
-                    */
-                    SweetAlert().showAlert("退勤", subTitle: "お疲れ様でした", style: AlertStyle.Success)
-                }
-                
-                let clockoutTime = self.getCunnrentTime()
-                self.lblClockoutTime.text = clockoutTime
-                self.attendanceFlg = false
-                self.didExit = false
-
-            }
+        //出勤チェックをしてから退勤処理を実行する
+        let params = ["email": defaults.objectForKey("email")!]
+        self.timecardModel.clockout(params) { ()->() in
+            
+            let clockoutTime = self.getCunnrentTime()
+            self.lblClockout.text = clockoutTime
+            self.didExitRegionFlg = false
+            
         }
     }
     
@@ -322,8 +192,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate, NSURLSessionD
     
     func locationManager(manager: CLLocationManager, didStartMonitoringForRegion region: CLRegion) {
         print("観測開始")
-        print(region.identifier)
-        self.locationManager.requestStateForRegion(region)
+        self.locationManager.requestStateForRegion(self.beaconRegion)
     }
     
     func locationManager(manager: CLLocationManager, didDetermineState state: CLRegionState, forRegion region: CLRegion) {
@@ -334,6 +203,9 @@ class ViewController: UIViewController, CLLocationManagerDelegate, NSURLSessionD
             self.lblStatus.text = "in beacon region"
             //既にリージョン内にいる場合にはdidEnterRegionが呼ばれないため、このメソッドを実行
             self.locationManager.startRangingBeaconsInRegion(self.beaconRegion)
+            
+            //notificationの設定がされていればキャンセル
+            UIApplication.sharedApplication().cancelAllLocalNotifications()
             
         case CLRegionState.Outside:
             print("outside")
@@ -372,6 +244,10 @@ class ViewController: UIViewController, CLLocationManagerDelegate, NSURLSessionD
         }
     }
     
+    func locationManager(manager: CLLocationManager, didFailWithError error: NSError) {
+        print(error)
+    }
+    
     private func createRegion(uuid: NSUUID) {
         
         // ## ビーコン領域を作成 ##
@@ -397,34 +273,6 @@ class ViewController: UIViewController, CLLocationManagerDelegate, NSURLSessionD
         */
     }
     
-    private func callApi(url: String, params: [String: AnyObject]?, complete:(data:NSData)->()) {
-        print(url)
-        
-        //バックグランドで通信ができる
-        let config = NSURLSessionConfiguration.backgroundSessionConfigurationWithIdentifier(url)
-        let _manager = Alamofire.Manager(configuration: config)
-        self.alamoManager = _manager
-        self.alamoManager!.startRequestsImmediately = true
-        self.alamoManager!.request(.POST, url, parameters: params, encoding: ParameterEncoding.URL).response { request, response, data, error in
-            print(response)
-            if(error != nil) {
-                
-                print(error)
-                let notification = UILocalNotification()
-                notification.fireDate = NSDate(timeIntervalSinceNow: 5)
-                notification.timeZone = NSTimeZone.defaultTimeZone()
-                notification.alertBody = "通信エラーが発生しました。手動でタイムカードを登録してください。\n\(url)\n\(error)"
-                notification.alertAction = "OK"
-                notification.soundName = UILocalNotificationDefaultSoundName
-                UIApplication.sharedApplication().scheduleLocalNotification(notification)
-                
-            }else{
-                complete(data: data!)
-            }
-        }
-        
-    }
-    
     private func getCunnrentTime() -> String {
         let now = NSDate()
         let calendar = NSCalendar(identifier: NSCalendarIdentifierGregorian)
@@ -438,91 +286,9 @@ class ViewController: UIViewController, CLLocationManagerDelegate, NSURLSessionD
 
     }
     
-    func URLSession(session: NSURLSession, dataTask: NSURLSessionDataTask, didReceiveResponse response: NSURLResponse, completionHandler: (NSURLSessionResponseDisposition) -> Void) {
-        print(response)
-    }
-    
-    func URLSession(session: NSURLSession, dataTask: NSURLSessionDataTask, didReceiveData data: NSData) {
-        print(data)
-    }
-    
-    func URLSession(session: NSURLSession, task: NSURLSessionTask, didCompleteWithError error: NSError?) {
-        if((error) != nil) {
-            print(error)
-        }else{
-            
-            print("成功")
-            
-        }
-    }
-    
-    func URLSession(session: NSURLSession, didReceiveChallenge challenge: NSURLAuthenticationChallenge, completionHandler: (NSURLSessionAuthChallengeDisposition, NSURLCredential?) -> Void) {
-        print("aaa")
-    }
-    
-    func URLSessionDidFinishEventsForBackgroundURLSession(session: NSURLSession) {
-        //バックグラウンド時からフォアグラウンド時に呼ばれるデリゲート
-        print("bbb")
-    }
-    
-    func URLSession(session: NSURLSession, didBecomeInvalidWithError error: NSError?) {
-        print("ccc")
-    }
-
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-    
-    func numberOfRecordsForPlot(plot: CPTPlot) -> UInt {
-        print("hoge")
-        return UInt(self.pieChartData.count)
-    }
-    
-    func numberForPlot(plot: CPTPlot, field fieldEnum: UInt, recordIndex idx: UInt) -> AnyObject? {
-        print(self.pieChartData.objectAtIndex(Int(idx)))
-        return self.pieChartData.objectAtIndex(Int(idx))
-    }
-    
-    /*
-    func dataForPlot(plot: CPTPlot, recordIndexRange indexRange: NSRange) -> CPTNumericData? {
-        //グラフのラベル設定（らしい）
-        return "hoge"
-    }
-    */
-    
-    /*
-    func radialOffsetForPieChart(pieChart: CPTPieChart, recordIndex idx: UInt) -> CGFloat {
-        var offset:CGFloat = 0.0
-        if (idx == 0) {
-            offset = pieChart.pieRadius / 8.0
-        }
-        return offset
-    }
-    */
-    
-    func legendTitleForPieChart(pieChart: CPTPieChart, recordIndex idx: UInt) -> String? {
-        return self.chartTitle[Int(idx)]
-        
-    }
-    
-    func sliceFillForPieChart(pieChart: CPTPieChart, recordIndex idx: UInt) -> CPTFill? {
-        var areaGradientFill: CPTFill = CPTFill()
-        
-        if(idx == 0) {
-            areaGradientFill = CPTFill(color: CPTColor(componentRed: 0.573, green: 1.0, blue: 0.88, alpha: 1.0))
-        }else if(idx == 1) {
-            areaGradientFill = CPTFill(color: CPTColor(componentRed: 0.8, green: 0.7, blue: 0.6, alpha: 1.0))
-        }else if(idx == 2) {
-            areaGradientFill = CPTFill(color: CPTColor(componentRed: 0.6, green: 0.6, blue: 0.8, alpha: 1.0))
-        }
-        return areaGradientFill
-
-    }
-    
-    
-
-
-
 }
 
