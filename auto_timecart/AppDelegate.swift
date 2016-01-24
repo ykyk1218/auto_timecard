@@ -27,10 +27,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }else{
             
             //時刻表示
-            self.window?.rootViewController = ViewController()
+            let nav = CustomNavigationController(rootViewController: ViewController())
+            //nav.navigationItem.title = "ほげ"
+            self.window?.rootViewController = nav
             self.window?.makeKeyAndVisible()
             
         }
+        application.registerUserNotificationSettings(UIUserNotificationSettings(forTypes: [UIUserNotificationType.Sound, UIUserNotificationType.Alert], categories: nil))
         
         return true
     }

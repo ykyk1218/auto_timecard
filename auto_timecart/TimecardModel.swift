@@ -15,6 +15,11 @@ class TimecardModel: NSObject {
     private let attendanceUrl = "http://tc.basicinc.jp/api/attendance.php"
     private let isAttendUrl   = "http://tc.basicinc.jp/api/is_attend.php"
     private let clockoutUrl   = "http://tc.basicinc.jp/api/clock_out.php"
+    private let getTimeUrl    = "http://tc.basicinc.jp/api/getTime.php"
+    private let worktimeUrl   = "http://tc.basicinc.jp/api/overtime.php"
+    private let checkUserUrl  = "http://tc.basicinc.jp/api/check_user.php"
+    private let recordLogUrl  = "http://tc.basicinc.jp/api/record.php"
+
     
     private var alamoManager : Manager?
     var email: String?
@@ -22,7 +27,17 @@ class TimecardModel: NSObject {
         super.init()
     }
     
-    func attendance(params: [String: AnyObject]?, callback:()->()) {
+    func getTime(params: [String: AnyObject]?, callback:(json:JSON)->()) {
+
+        self.callApi(self.getTimeUrl, params: params) {(data)->() in
+            let json = SwiftyJSON.JSON(data: data)
+            
+            callback(json: json)
+        }
+    }
+    
+    //出勤処理
+    func attendance(params: [String: AnyObject]?, callback:(attendanceProcessed: Bool)->()) {
         
         //既に出勤しているかどうかをチェック
         self.callApi(self.isAttendUrl, params: params) {(data)->() in
@@ -51,14 +66,17 @@ class TimecardModel: NSObject {
                         SweetAlert().showAlert("出勤", subTitle: "おはようございます！", style: AlertStyle.Success)
                     }
                     
-                    callback()
+                    callback(attendanceProcessed: true)
                 }
+            }else{
+                callback(attendanceProcessed: false)
             }
         }
     }
     
     
-    func clockout(params: [String: AnyObject]?, callback:()->()) {
+    //退勤処理
+    func clockout(params: [String: AnyObject]?, callback:(clockoutProcessed: Bool)->()) {
         
         //出勤チェック
         self.callApi(self.isAttendUrl, params: params) {(data)->() in
@@ -66,10 +84,11 @@ class TimecardModel: NSObject {
             let str: String = String(data:data, encoding:NSUTF8StringEncoding)!
             if(str == "true") {
             
-                //18時半以降、1時間たっても戻ってこなければタイムカードに退勤時間を登録する
-                self.callApi(self.clockoutUrl, params: ["email": "kobayashi@basicinc.jp"]) { (data)->() in
+                self.callApi(self.clockoutUrl, params: params) { (data)->() in
                     
                     if(UIApplication.sharedApplication().applicationState == UIApplicationState.Background) {
+                        /*
+                        いつ退勤したかの判定が難しいので、push通知やめる
                         UIApplication.sharedApplication().cancelAllLocalNotifications()
                         let notification = UILocalNotification()
                         notification.fireDate = NSDate(timeIntervalSinceNow: 30)
@@ -78,15 +97,52 @@ class TimecardModel: NSObject {
                         notification.alertAction = "OK"
                         notification.soundName = UILocalNotificationDefaultSoundName
                         UIApplication.sharedApplication().scheduleLocalNotification(notification)
+                        */
                     }else{
+                        /*
+                        let delayTime = dispatch_time(DISPATCH_TIME_NOW, Int64(5 * Double(NSEC_PER_SEC)))
+                        dispatch_after(delayTime, dispatch_get_main_queue()) {
+                            SweetAlert().showAlert("退勤", subTitle: "お疲れ様でした", style: AlertStyle.Success)
+                        }
+                        */
                         
-                        SweetAlert().showAlert("退勤", subTitle: "お疲れ様でした", style: AlertStyle.Success)
                     }
                     
-                    callback()
+                    callback(clockoutProcessed: true)
                     
                 }
+            }else{
+                callback(clockoutProcessed: false)
             }
+        }
+    }
+    
+    //メールアドレスを元にユーザーの存在チェック
+    func checkUser(params: [String: AnyObject]?, callback:(Bool)->()) {
+        self.callApi(self.checkUserUrl, params: params) { (data)->() in
+            let str: String = String(data:data, encoding:NSUTF8StringEncoding)!
+            if(str == "false") {
+                callback(false)
+            }else{
+                callback(true)
+            }
+        }
+    }
+    
+    
+    //作業時間の取得
+    func worktime(params: [String: AnyObject]?, callback: (json: JSON)->()) {
+        self.callApi(self.worktimeUrl, params: params) { (data)->() in
+            let json = SwiftyJSON.JSON(data: data)
+            callback(json: json)
+        }
+    }
+    
+    func record(params: [String: AnyObject]?) {
+        self.callApi(self.recordLogUrl, params: params) { (data)->() in
+            
+            //特に何もしない
+            
         }
     }
     
@@ -108,12 +164,12 @@ class TimecardModel: NSObject {
                     let notification = UILocalNotification()
                     notification.fireDate = NSDate(timeIntervalSinceNow: 5)
                     notification.timeZone = NSTimeZone.defaultTimeZone()
-                    notification.alertBody = "通信エラーが発生しました。手動でタイムカードを更新してください。\n\(url)\n\(error)"
+                    notification.alertBody = "通信エラーが発生しました。\n\(url)\n\(error)"
                     notification.alertAction = "OK"
                     notification.soundName = UILocalNotificationDefaultSoundName
                     UIApplication.sharedApplication().scheduleLocalNotification(notification)
                 }else{
-                    SweetAlert().showAlert("通信エラー", subTitle: "エラーが発生しました。手動でタイムカードを更新してください", style: AlertStyle.Error)
+                    SweetAlert().showAlert("通信エラー", subTitle: "通信エラーが発生しました。", style: AlertStyle.Error)
                 }
                 
             }else{

@@ -11,15 +11,18 @@
 		6A13E3F61C301C5800173FAB /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A13E3F51C301C5800173FAB /* AppDelegate.swift */; };
 		6A13E3F81C301C5800173FAB /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A13E3F71C301C5800173FAB /* ViewController.swift */; };
 		6A13E3FB1C301C5800173FAB /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6A13E3F91C301C5800173FAB /* Main.storyboard */; };
-		6A13E3FD1C301C5800173FAB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6A13E3FC1C301C5800173FAB /* Assets.xcassets */; };
 		6A13E4001C301C5800173FAB /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6A13E3FE1C301C5800173FAB /* LaunchScreen.storyboard */; };
 		6A13E40B1C301C5900173FAB /* auto_timecartTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A13E40A1C301C5900173FAB /* auto_timecartTests.swift */; };
 		6A13E4161C301C5900173FAB /* auto_timecartUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A13E4151C301C5900173FAB /* auto_timecartUITests.swift */; };
+		6A8195761C43BEEA007E4A16 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6A8195751C43BEEA007E4A16 /* Assets.xcassets */; settings = {ASSET_TAGS = (); }; };
+		6A8195781C466C51007E4A16 /* CustomNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A8195771C466C51007E4A16 /* CustomNavigationController.swift */; settings = {ASSET_TAGS = (); }; };
 		6AAEB7851C42470900F16E35 /* TimecardModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AAEB7841C42470900F16E35 /* TimecardModel.swift */; settings = {ASSET_TAGS = (); }; };
 		6AAEB7871C42481100F16E35 /* TimecardGraphView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AAEB7861C42481100F16E35 /* TimecardGraphView.swift */; settings = {ASSET_TAGS = (); }; };
 		6AB28BC91C4169480011C565 /* SweetAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AB28BC81C4169480011C565 /* SweetAlert.swift */; settings = {ASSET_TAGS = (); }; };
 		6AC1DB651C3D2914008CE4C2 /* UserRegistViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AC1DB641C3D2914008CE4C2 /* UserRegistViewController.swift */; settings = {ASSET_TAGS = (); }; };
 		6AC1DB671C416075008CE4C2 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6AC1DB661C416075008CE4C2 /* QuartzCore.framework */; };
+		6AD2512B1C42734700BB8836 /* GameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AD2512A1C42734700BB8836 /* GameView.swift */; settings = {ASSET_TAGS = (); }; };
+		6AD2512D1C42747300BB8836 /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AD2512C1C42747300BB8836 /* GameScene.swift */; settings = {ASSET_TAGS = (); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -41,11 +44,10 @@
 
 /* Begin PBXFileReference section */
 		50D0087F510A786A7F39861C /* Pods_auto_timecart.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_auto_timecart.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		6A13E3F21C301C5800173FAB /* auto_timecard.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = auto_timecard.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		6A13E3F21C301C5800173FAB /* Timecard.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Timecard.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6A13E3F51C301C5800173FAB /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		6A13E3F71C301C5800173FAB /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		6A13E3FA1C301C5800173FAB /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		6A13E3FC1C301C5800173FAB /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		6A13E3FF1C301C5800173FAB /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		6A13E4011C301C5800173FAB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		6A13E4061C301C5900173FAB /* auto_timecard.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = auto_timecard.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -54,12 +56,16 @@
 		6A13E4111C301C5900173FAB /* auto_timecard.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = auto_timecard.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		6A13E4151C301C5900173FAB /* auto_timecartUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = auto_timecartUITests.swift; sourceTree = "<group>"; };
 		6A13E4171C301C5900173FAB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		6A8195751C43BEEA007E4A16 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		6A8195771C466C51007E4A16 /* CustomNavigationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomNavigationController.swift; sourceTree = "<group>"; };
 		6AAEB7841C42470900F16E35 /* TimecardModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TimecardModel.swift; sourceTree = "<group>"; };
 		6AAEB7861C42481100F16E35 /* TimecardGraphView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TimecardGraphView.swift; sourceTree = "<group>"; };
 		6AB28BC81C4169480011C565 /* SweetAlert.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SweetAlert.swift; sourceTree = "<group>"; };
 		6AC1DB641C3D2914008CE4C2 /* UserRegistViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserRegistViewController.swift; sourceTree = "<group>"; };
 		6AC1DB661C416075008CE4C2 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		6AC220571C36EB79009B2468 /* Bridge-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Bridge-Header.h"; sourceTree = "<group>"; };
+		6AD2512A1C42734700BB8836 /* GameView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameView.swift; sourceTree = "<group>"; };
+		6AD2512C1C42747300BB8836 /* GameScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameScene.swift; sourceTree = "<group>"; };
 		CF1B5B18FDF962DF78FDF036 /* Pods-auto_timecart.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-auto_timecart.debug.xcconfig"; path = "Pods/Target Support Files/Pods-auto_timecart/Pods-auto_timecart.debug.xcconfig"; sourceTree = "<group>"; };
 		DF07FB0798F0552474338018 /* Pods-auto_timecart.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-auto_timecart.release.xcconfig"; path = "Pods/Target Support Files/Pods-auto_timecart/Pods-auto_timecart.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -106,7 +112,7 @@
 		6A13E3F31C301C5800173FAB /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				6A13E3F21C301C5800173FAB /* auto_timecard.app */,
+				6A13E3F21C301C5800173FAB /* Timecard.app */,
 				6A13E4061C301C5900173FAB /* auto_timecard.xctest */,
 				6A13E4111C301C5900173FAB /* auto_timecard.xctest */,
 			);
@@ -116,17 +122,20 @@
 		6A13E3F41C301C5800173FAB /* auto_timecart */ = {
 			isa = PBXGroup;
 			children = (
+				6A8195751C43BEEA007E4A16 /* Assets.xcassets */,
 				6AB28BC81C4169480011C565 /* SweetAlert.swift */,
 				6A13E3F51C301C5800173FAB /* AppDelegate.swift */,
 				6A13E3F71C301C5800173FAB /* ViewController.swift */,
 				6A13E3F91C301C5800173FAB /* Main.storyboard */,
-				6A13E3FC1C301C5800173FAB /* Assets.xcassets */,
 				6A13E3FE1C301C5800173FAB /* LaunchScreen.storyboard */,
 				6A13E4011C301C5800173FAB /* Info.plist */,
 				6AC220571C36EB79009B2468 /* Bridge-Header.h */,
 				6AC1DB641C3D2914008CE4C2 /* UserRegistViewController.swift */,
 				6AAEB7841C42470900F16E35 /* TimecardModel.swift */,
 				6AAEB7861C42481100F16E35 /* TimecardGraphView.swift */,
+				6AD2512A1C42734700BB8836 /* GameView.swift */,
+				6AD2512C1C42747300BB8836 /* GameScene.swift */,
+				6A8195771C466C51007E4A16 /* CustomNavigationController.swift */,
 			);
 			path = auto_timecart;
 			sourceTree = "<group>";
@@ -187,7 +196,7 @@
 			);
 			name = auto_timecard;
 			productName = auto_timecart;
-			productReference = 6A13E3F21C301C5800173FAB /* auto_timecard.app */;
+			productReference = 6A13E3F21C301C5800173FAB /* Timecard.app */;
 			productType = "com.apple.product-type.application";
 		};
 		6A13E4051C301C5900173FAB /* auto_timecardTests */ = {
@@ -237,7 +246,7 @@
 				TargetAttributes = {
 					6A13E3F11C301C5800173FAB = {
 						CreatedOnToolsVersion = 7.0;
-						DevelopmentTeam = LCY9Z535A8;
+						DevelopmentTeam = 8TU5SCKJ3P;
 					};
 					6A13E4051C301C5900173FAB = {
 						CreatedOnToolsVersion = 7.0;
@@ -277,7 +286,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				6A13E4001C301C5800173FAB /* LaunchScreen.storyboard in Resources */,
-				6A13E3FD1C301C5800173FAB /* Assets.xcassets in Resources */,
+				6A8195761C43BEEA007E4A16 /* Assets.xcassets in Resources */,
 				6A13E3FB1C301C5800173FAB /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -353,10 +362,13 @@
 			files = (
 				6A13E3F81C301C5800173FAB /* ViewController.swift in Sources */,
 				6AAEB7851C42470900F16E35 /* TimecardModel.swift in Sources */,
+				6AD2512D1C42747300BB8836 /* GameScene.swift in Sources */,
 				6AAEB7871C42481100F16E35 /* TimecardGraphView.swift in Sources */,
+				6A8195781C466C51007E4A16 /* CustomNavigationController.swift in Sources */,
 				6A13E3F61C301C5800173FAB /* AppDelegate.swift in Sources */,
 				6AC1DB651C3D2914008CE4C2 /* UserRegistViewController.swift in Sources */,
 				6AB28BC91C4169480011C565 /* SweetAlert.swift in Sources */,
+				6AD2512B1C42734700BB8836 /* GameView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -428,7 +440,7 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -490,6 +502,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
+				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 				SWIFT_OBJC_BRIDGING_HEADER = "/Users/kobayashiyoshiki/projects/auto_timecart/auto_timecart/Bridge-Header.h";
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -502,11 +515,13 @@
 			baseConfigurationReference = CF1B5B18FDF962DF78FDF036 /* Pods-auto_timecart.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer: Yoshiki Kobayashi (94885KHZ3D)";
 				INFOPLIST_FILE = auto_timecart/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "com.auto-timecart";
-				PRODUCT_NAME = auto_timecard;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.timecard-automation";
+				PRODUCT_NAME = Timecard;
+				PROVISIONING_PROFILE = "fea51ecf-1b30-49e1-9d7f-59af3ed37c7d";
 				SWIFT_OBJC_BRIDGING_HEADER = "";
 			};
 			name = Debug;
@@ -516,11 +531,14 @@
 			baseConfigurationReference = DF07FB0798F0552474338018 /* Pods-auto_timecart.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Yoshiki Kobayashi (8TU5SCKJ3P)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Yoshiki Kobayashi (8TU5SCKJ3P)";
 				INFOPLIST_FILE = auto_timecart/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "com.auto-timecart";
-				PRODUCT_NAME = auto_timecard;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.timecard-automation";
+				PRODUCT_NAME = Timecard;
+				PROVISIONING_PROFILE = "e72a6fde-addd-4ae8-adda-f6feac0c89c1";
 				SWIFT_OBJC_BRIDGING_HEADER = "";
 			};
 			name = Release;

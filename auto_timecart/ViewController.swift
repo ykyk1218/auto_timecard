@@ -12,6 +12,7 @@ import SwiftyJSON
 import Alamofire
 import CorePlot
 import Download_Font_iOS
+import QuartzCore
 
 extension UIColor {
     class func hex (var hexStr : NSString, let alpha : CGFloat) -> UIColor {
@@ -53,10 +54,14 @@ class ViewController: UIViewController, CLLocationManagerDelegate, NSURLSessionD
     private var attendanceFlg = false
     private var clockoutFlg   = false
     
-    private var didEnterRegionFlg = false
-    private var didExitRegionFlg  = false
+    /*
+    private var enterRegionFlg = false
+    private var exitRegionFlg  = true
+    */
+
+    private var preventDoubleCall = false
     
-    private let lblTitle = UILabel()
+    private let lblDate = UILabel()
     private let lblAttendance = UILabel()
     private let lblClockout = UILabel()
     private let lblAttendanceTime = UILabel()
@@ -69,74 +74,89 @@ class ViewController: UIViewController, CLLocationManagerDelegate, NSURLSessionD
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        /*
-        DBLDownloadFont.setFontNameWithBlock({ (success: Bool, error:String!) -> Void in
-            print(error)
-        }, fontName: "ヒラギノ角ゴ ProN W6")
-        var graph = CPTXYGraph(frame: CGRectZero)
-        */
         
-        let baseY: CGFloat = 120.0
+        let lblNavTitle = UILabel()
+        lblNavTitle.text = "タイムカードオートメーション"
+        lblNavTitle.frame = CGRectMake(0,0, self.view.frame.size.width+100,(self.navigationController?.navigationBar.frame.size.height)!)
+        lblNavTitle.textAlignment = NSTextAlignment.Center
+        lblNavTitle.textColor = UIColor.whiteColor()
+        lblNavTitle.font = UIFont(name: "ヒラギノ角ゴ ProN W6",size: 16)
+        self.navigationItem.titleView = lblNavTitle
+        
+        let baseY: CGFloat = 100.0
         self.view.backgroundColor = UIColor.hex("00FFFF", alpha: 0.8)
+        
         
         /*********************/
         
-        //出勤時間と退勤時間を取得するAPIを実行
+        lblDate.frame = CGRectMake(0, baseY - 60, self.view.frame.width, 100)
+        //lblDate.center = CGPointMake(0, baseY)
+        lblDate.text = self.getCunnrentDate("yyyy年 MM月 dd日")
+        lblDate.textColor = UIColor.whiteColor()
+        lblDate.font = UIFont(name: "ヒラギノ角ゴ ProN W6",size: 22)
+        lblDate.textAlignment = NSTextAlignment.Center
         
-        lblTitle.frame = CGRectMake(0, 15, self.view.bounds.width, 100)
-        lblTitle.text = "オートタイムカード"
-        lblTitle.textColor = UIColor.whiteColor()
-        lblTitle.font = UIFont(name: "ヒラギノ角ゴ ProN W6",size: 25)
         
         lblAttendance.frame = CGRectMake(0, 0, 200, 100)
-        lblAttendance.center = CGPointMake(self.view.bounds.width/2-30, baseY)
+        lblAttendance.center = CGPointMake(self.view.bounds.width/2-30, baseY+50)
         lblAttendance.text = "出勤時間"
         lblAttendance.textColor = UIColor.whiteColor()
-        lblAttendance.font = UIFont(name: "ヒラギノ角ゴ ProN W6",size: 25)
+        lblAttendance.font = UIFont(name: "ヒラギノ角ゴ ProN W6",size: 22)
         
         lblAttendanceTime.frame = CGRectMake(0, 0, 200, 100)
-        lblAttendanceTime.center = CGPointMake(self.view.bounds.width/2 + 100, baseY)
+        lblAttendanceTime.center = CGPointMake(self.view.bounds.width/2 + 100, baseY+50)
         lblAttendanceTime.text = "--:--"
         lblAttendanceTime.textColor = UIColor.whiteColor()
-        lblAttendanceTime.font = UIFont(name: "ヒラギノ角ゴ ProN W6",size: 25)
+        lblAttendanceTime.font = UIFont(name: "ヒラギノ角ゴ ProN W6",size: 22)
         
         lblClockout.frame = CGRectMake(0, 0, 200, 100)
-        lblClockout.center = CGPointMake(self.view.bounds.width/2-30, baseY+50)
+        lblClockout.center = CGPointMake(self.view.bounds.width/2-30, baseY+85)
         lblClockout.text = "退勤時間"
         lblClockout.textColor = UIColor.whiteColor()
-        lblClockout.font = UIFont(name: "ヒラギノ角ゴ ProN W6",size: 25)
+        lblClockout.font = UIFont(name: "ヒラギノ角ゴ ProN W6",size: 22)
         
         lblClockoutTime.frame = CGRectMake(0, 0, 200, 100)
-        lblClockoutTime.center = CGPointMake(self.view.bounds.width/2+100, baseY+50)
+        lblClockoutTime.center = CGPointMake(self.view.bounds.width/2+100, baseY+85)
         lblClockoutTime.text = "--:--"
         lblClockoutTime.textColor = UIColor.whiteColor()
-        lblClockoutTime.font = UIFont(name: "ヒラギノ角ゴ ProN W6",size: 25)
+        lblClockoutTime.font = UIFont(name: "ヒラギノ角ゴ ProN W6",size: 22)
         
-        /*
-        lblStatus.frame = CGRectMake(0, 0, 200, 100)
-        lblStatus.center = CGPointMake(self.view.bounds.width/2, baseY + 250)
-        lblStatus.text = "ビーコン領域内 or 外"
+        lblStatus.frame = CGRectMake(0, 0, self.view.bounds.width-30, 40)
+        lblStatus.center = CGPointMake(self.view.bounds.width/2, self.view.bounds.height-15)
+        lblStatus.text = "ビーコン領域内"
         lblStatus.textColor = UIColor.whiteColor()
-        lblStatus.font = UIFont(name: "ヒラギノ角ゴ ProN W6",size: 25)
-        */
+        lblStatus.font = UIFont(name: "ヒラギノ角ゴ ProN W6",size: 15)
+        lblStatus.textAlignment = NSTextAlignment.Center
+        lblStatus.clipsToBounds = true
+        lblStatus.layer.cornerRadius = 10.0
+        lblStatus.backgroundColor = UIColor.hex("dbe159", alpha: 0.5)
+        lblStatus.numberOfLines = 0
+
+        
         
         //グラフViewの表示
         let timecardGraph = TimecardGraphView()
-        timecardGraph.frame = CGRectMake(0, 0, UIScreen.mainScreen().bounds.size.width-5, 280)
-        timecardGraph.center = CGPointMake(UIScreen.mainScreen().bounds.size.width/2, baseY+250)
+        timecardGraph.frame = CGRectMake(0, 0, UIScreen.mainScreen().bounds.size.width-5, 300)
+        timecardGraph.center = CGPointMake(UIScreen.mainScreen().bounds.size.width/2, baseY+180)
         
-        self.view.addSubview(lblTitle)
+        self.view.addSubview(lblDate)
         self.view.addSubview(lblAttendance)
         self.view.addSubview(lblAttendanceTime)
         self.view.addSubview(lblClockout)
         self.view.addSubview(lblClockoutTime)
-        //self.view.addSubview(lblStatus)
         self.view.addSubview(timecardGraph)
-            
-        //Notificationのおまじない
-        //通知をキャンセル
-        //UIApplication.sharedApplication().cancelAllLocalNotifications()
-            
+        self.view.addSubview(lblStatus)
+        
+        let now = getCunnrentDate("yyyy-MM-dd")
+        //出勤・退勤の時間を取得
+        if(defaults.objectForKey(now + ":attendanceTime") != nil) {
+            self.lblAttendanceTime.text = defaults.objectForKey(now + ":attendanceTime") as? String
+        }
+        if(defaults.objectForKey("clockoutTime") != nil) {
+            self.lblClockoutTime.text = defaults.objectForKey(now + ":clockoutTime")as? String
+        }
+
+        //位置情報の取得
         self.locationManager = CLLocationManager()
         self.locationManager.delegate = self
         self.locationManager.requestAlwaysAuthorization()
@@ -145,55 +165,97 @@ class ViewController: UIViewController, CLLocationManagerDelegate, NSURLSessionD
     //ビーコンの領域にはいった時に呼ばれるデリゲートメソッド
     func locationManager(manager: CLLocationManager, didEnterRegion region: CLRegion) {
         print("didEnterRegion")
-        if(self.didEnterRegionFlg) {
+        if(self.preventDoubleCall) {
             //デリゲートメソッドの2重呼び出し防止
             print("2重呼び出し防止")
             return
         }
         self.locationManager.startRangingBeaconsInRegion(self.beaconRegion)
-        self.didEnterRegionFlg = true
+        self.preventDoubleCall = true
         
-        let params = ["email": defaults.objectForKey("email")!]
-        self.timecardModel.attendance(params) {()->() in
-            
-            let attendanceTime = self.getCunnrentTime()
-            self.lblAttendanceTime.text = attendanceTime
-            
-            self.attendanceFlg = true
-            self.didEnterRegionFlg = false
+        let now = self.getCunnrentDate("yyyy-MM-dd")
+        if(self.defaults.objectForKey(now + ":attendanceTime") == nil) {
+        
+            let params = ["email": defaults.objectForKey("email")!, "in_region":"true"]
+            self.timecardModel.attendance(params) {(clockoutProcessed)->() in
+                
+                //出勤処理をした場合
+                if(clockoutProcessed) {
+                    let attendanceTime = self.getCunnrentTime()
+                    self.lblAttendanceTime.text = attendanceTime
+                    
+                    let calendar = NSCalendar(identifier: NSCalendarIdentifierGregorian)
+                    let comp = NSDateComponents()
+                    comp.day = -1
+                    let d:NSDate = calendar!.dateByAddingComponents(comp, toDate: NSDate(), options: NSCalendarOptions())!
+                    let dateFormatter = NSDateFormatter()
+                    dateFormatter.locale = NSLocale(localeIdentifier: "ja_JP")
+                    dateFormatter.dateFormat = "yyyy-MM-dd"
+                    let y = dateFormatter.stringFromDate(d)
+                    self.defaults.removeObjectForKey(y+":attendanceTime")
+                    
+                    self.defaults.setObject(attendanceTime, forKey: now + ":attendanceTime")
+                    
+                }
+                self.attendanceFlg = true
+                self.preventDoubleCall = false
+                
+                //ログ登録用
+                self.timecardModel.record(params)
+            }
         }
+    
+        self.lblStatus.text = "ビーコン領域内"
     }
     
     //ビーコン領域から外に出た後に呼ばれるデリゲートメソッド
     //領域外にでてから30秒後ぐらいに実行される
     func locationManager(manager: CLLocationManager, didExitRegion region: CLRegion) {
         print("didExitRegion")
-        if(self.didExitRegionFlg) {
+        if(self.preventDoubleCall) {
             //デリゲートメソッドの2重呼び出し防止
             return
         }
-        self.locationManager.stopRangingBeaconsInRegion(self.beaconRegion)
-        self.didExitRegionFlg = true
+        //self.locationManager.stopRangingBeaconsInRegion(self.beaconRegion)
+        self.preventDoubleCall = true
         
         //出勤チェックをしてから退勤処理を実行する
-        let params = ["email": defaults.objectForKey("email")!]
-        self.timecardModel.clockout(params) { ()->() in
-            
-            let clockoutTime = self.getCunnrentTime()
-            self.lblClockout.text = clockoutTime
-            self.didExitRegionFlg = false
-            
+        let params = ["email": defaults.objectForKey("email")!, "in_region":"false"]
+        
+        let now = self.getCunnrentDate("yyyy-MM-dd")
+        if(self.defaults.objectForKey(now + ":clockoutTime") == nil) {
+            self.timecardModel.clockout(params) { (clockoutProcessed)->() in
+                
+                if(clockoutProcessed) {
+                    let clockoutTime = self.getCunnrentTime()
+                    self.lblClockoutTime.text = clockoutTime
+                    
+                    
+                    let calendar = NSCalendar(identifier: NSCalendarIdentifierGregorian)
+                    let comp = NSDateComponents()
+                    comp.day = -1
+                    let d:NSDate = calendar!.dateByAddingComponents(comp, toDate: NSDate(), options: NSCalendarOptions())!
+                    let dateFormatter = NSDateFormatter()
+                    dateFormatter.locale = NSLocale(localeIdentifier: "ja_JP")
+                    dateFormatter.dateFormat = "yyyy-MM-dd"
+                    let y = dateFormatter.stringFromDate(d)
+                    self.defaults.removeObjectForKey(y+":clockoutTime")
+
+                    
+                    self.defaults.setObject(clockoutTime, forKey: now + ":clockoutTime")
+                }
+                self.preventDoubleCall = false
+                
+                
+                //ログ登録用
+                self.timecardModel.record(params)
+            }
         }
+        
+        self.lblStatus.text = "ビーコン領域外"
     }
     
-    func locationManager(manager: CLLocationManager, monitoringDidFailForRegion region: CLRegion?, withError error: NSError) {
-        print(error)
-    }
-    
-    func locationManager(manager: CLLocationManager, didStartMonitoringForRegion region: CLRegion) {
-        print("観測開始")
-        self.locationManager.requestStateForRegion(self.beaconRegion)
-    }
+
     
     func locationManager(manager: CLLocationManager, didDetermineState state: CLRegionState, forRegion region: CLRegion) {
         
@@ -201,9 +263,12 @@ class ViewController: UIViewController, CLLocationManagerDelegate, NSURLSessionD
         case CLRegionState.Inside:
             print("inside")
             self.lblStatus.text = "in beacon region"
-            //既にリージョン内にいる場合にはdidEnterRegionが呼ばれないため、このメソッドを実行
-            self.locationManager.startRangingBeaconsInRegion(self.beaconRegion)
-            
+            //既にリージョン内にいる場合にはdidEnterRegionが呼ばれないため、デリゲートメソッドを実行メソッドを実行
+            if(self.beaconRegion != nil) {
+                self.locationManager.startRangingBeaconsInRegion(self.beaconRegion)
+                self.locationManager(manager, didEnterRegion: region)
+                
+            }
             //notificationの設定がされていればキャンセル
             UIApplication.sharedApplication().cancelAllLocalNotifications()
             
@@ -214,7 +279,6 @@ class ViewController: UIViewController, CLLocationManagerDelegate, NSURLSessionD
         case CLRegionState.Unknown:
             print("unknown")
             self.lblStatus.text = "unknown beacon region"
-            //self.locationManager.requestStateForRegion(region)
         }
     }
     
@@ -248,6 +312,15 @@ class ViewController: UIViewController, CLLocationManagerDelegate, NSURLSessionD
         print(error)
     }
     
+    func locationManager(manager: CLLocationManager, monitoringDidFailForRegion region: CLRegion?, withError error: NSError) {
+        print(error)
+    }
+    
+    func locationManager(manager: CLLocationManager, didStartMonitoringForRegion region: CLRegion) {
+        print("観測開始")
+        self.locationManager.requestStateForRegion(self.beaconRegion)
+    }
+    
     private func createRegion(uuid: NSUUID) {
         
         // ## ビーコン領域を作成 ##
@@ -273,6 +346,14 @@ class ViewController: UIViewController, CLLocationManagerDelegate, NSURLSessionD
         */
     }
     
+    private func getCunnrentDate(format: String) ->String {
+        let now = NSDate()
+        let dateFormatter = NSDateFormatter()
+        dateFormatter.locale = NSLocale(localeIdentifier: "ja_JP")
+        dateFormatter.dateFormat = format
+        return dateFormatter.stringFromDate(now)
+    }
+    
     private func getCunnrentTime() -> String {
         let now = NSDate()
         let calendar = NSCalendar(identifier: NSCalendarIdentifierGregorian)
@@ -281,10 +362,11 @@ class ViewController: UIViewController, CLLocationManagerDelegate, NSURLSessionD
         
         let hour  = comps.hour
         let minute = comps.minute
-        let currentTime = String(hour) + ":" + String(minute)
+        let currentTime = String(format: "%02d", hour) + ":" + String(format: "%02d", minute)
         return currentTime
 
     }
+    
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()

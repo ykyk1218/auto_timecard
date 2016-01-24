@@ -22,7 +22,22 @@ class UserRegistViewController: UIViewController, UITextFieldDelegate {
         super.viewDidLoad()
         
         let baseY: CGFloat = 200.0
-        self.view.backgroundColor = UIColor.hex("00FFFF", alpha: 0.8)
+        //self.view.backgroundColor = UIColor.hex("00FFFF", alpha: 0.8)
+        
+        /*
+        ぼかし画像を全画面で表示
+        let filter = CIFilter(name: "CIGaussianBlur")!
+        filter.setValue(CIImage(image: UIImage(named: "new_kakushin.png")!), forKey: kCIInputImageKey)
+        let ciContext:CIContext = CIContext(options: nil)
+        let cgimg:CGImageRef = ciContext.createCGImage(filter.outputImage!, fromRect:filter.outputImage!.extent)
+        UIGraphicsBeginImageContext(self.view.frame.size);
+        let backImg: UIImage = UIImage(CGImage: cgimg, scale: 2.0, orientation:UIImageOrientation.Up)
+        backImg.drawInRect(self.view.bounds)
+        let backgroundImage = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        
+        self.view.backgroundColor = UIColor(patternImage: backgroundImage)
+        */
         
         lblEmail.frame = CGRectMake(0,0,240,50)
         lblEmail.center = CGPointMake(self.view.bounds.width/2-30, baseY)
@@ -32,7 +47,7 @@ class UserRegistViewController: UIViewController, UITextFieldDelegate {
         
         txtEmail.frame = CGRectMake(0,0,self.view.bounds.width-30,50)
         txtEmail.center = CGPointMake(self.view.bounds.width/2, baseY+50)
-        txtEmail.text = "kobayashi@basicinc.jp"
+        txtEmail.text = ""
         txtEmail.borderStyle = UITextBorderStyle.Line
         txtEmail.backgroundColor = UIColor.whiteColor()
         txtEmail.layer.borderWidth = 1.0
@@ -54,15 +69,30 @@ class UserRegistViewController: UIViewController, UITextFieldDelegate {
         btnSubmit.showsTouchWhenHighlighted = true
         btnSubmit.addTarget(self, action: "regist", forControlEvents: .TouchUpInside)
         
+        /*
         self.view.addSubview(lblEmail)
         self.view.addSubview(txtEmail)
         self.view.addSubview(btnSubmit)
+        */
         
         let aSelector = Selector("tapGesture:")
         let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: aSelector)
         self.view.addGestureRecognizer(tapGestureRecognizer)
-
         
+        
+        let blurEffect = UIBlurEffect(style: UIBlurEffectStyle.Light)
+        let blurView = UIVisualEffectView(effect: blurEffect)
+        let imageView = UIImageView(image: UIImage(named: "new_kakushin.png"))
+        imageView.frame = CGRectMake(0, 0, self.view.bounds.width, self.view.bounds.height)
+        blurView.frame = CGRectMake(0, 0, self.view.frame.width, self.view.frame.height)
+        blurView.contentView.frame = blurView.frame
+        
+        self.view.addSubview(imageView)
+        blurView.contentView.addSubview(lblEmail)
+        blurView.contentView.addSubview(txtEmail)
+        blurView.contentView.addSubview(btnSubmit)
+        self.view.addSubview(blurView)
+
     }
 
     func tapGesture(gestureRecognizer: UITapGestureRecognizer){
@@ -83,10 +113,17 @@ class UserRegistViewController: UIViewController, UITextFieldDelegate {
         }else{
             
             //メールアドレス存在チェック
-            
-            defaults.setObject(email, forKey: "email")
-            defaults.synchronize()
-            self.presentViewController(ViewController(), animated: true, completion: nil)
+            let timecardModel = TimecardModel()
+            timecardModel.checkUser(["email": email!]) {(check: Bool)->() in
+                if(check) {
+                    self.defaults.setObject(email, forKey: "email")
+                    self.defaults.synchronize()
+                    let nav = CustomNavigationController(rootViewController: ViewController())
+                    self.presentViewController(nav, animated: true, completion: nil)
+                }else{
+                    SweetAlert().showAlert("入力エラー", subTitle: "入力したメールアドレスは登録されていません", style: AlertStyle.Error)
+                }
+            }
         }
     }
 

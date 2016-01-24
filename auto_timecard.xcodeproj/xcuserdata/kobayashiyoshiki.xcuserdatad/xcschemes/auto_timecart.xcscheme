@@ -15,7 +15,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "6A13E3F11C301C5800173FAB"
-               BuildableName = "auto_timecard.app"
+               BuildableName = "Timecard.app"
                BlueprintName = "auto_timecard"
                ReferencedContainer = "container:auto_timecard.xcodeproj">
             </BuildableReference>
@@ -53,7 +53,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "6A13E3F11C301C5800173FAB"
-            BuildableName = "auto_timecard.app"
+            BuildableName = "Timecard.app"
             BlueprintName = "auto_timecard"
             ReferencedContainer = "container:auto_timecard.xcodeproj">
          </BuildableReference>
@@ -76,7 +76,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "6A13E3F11C301C5800173FAB"
-            BuildableName = "auto_timecard.app"
+            BuildableName = "Timecard.app"
             BlueprintName = "auto_timecard"
             ReferencedContainer = "container:auto_timecard.xcodeproj">
          </BuildableReference>
@@ -95,7 +95,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "6A13E3F11C301C5800173FAB"
-            BuildableName = "auto_timecard.app"
+            BuildableName = "Timecard.app"
             BlueprintName = "auto_timecard"
             ReferencedContainer = "container:auto_timecard.xcodeproj">
          </BuildableReference>
