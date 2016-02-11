@@ -146,8 +146,10 @@ class ViewController: UIViewController, CLLocationManagerDelegate, NSURLSessionD
         self.view.addSubview(lblClockoutTime)
         self.view.addSubview(timecardGraph)
         self.view.addSubview(lblStatus)
-        
+
+        /*
         let now = getCunnrentDate("yyyy-MM-dd")
+
         //出勤・退勤の時間を取得
         if(defaults.objectForKey(now + ":attendanceTime") != nil) {
             self.lblAttendanceTime.text = defaults.objectForKey(now + ":attendanceTime") as? String
@@ -155,6 +157,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate, NSURLSessionD
         if(defaults.objectForKey("clockoutTime") != nil) {
             self.lblClockoutTime.text = defaults.objectForKey(now + ":clockoutTime")as? String
         }
+        */
 
         //位置情報の取得
         self.locationManager = CLLocationManager()
@@ -173,17 +176,18 @@ class ViewController: UIViewController, CLLocationManagerDelegate, NSURLSessionD
         self.locationManager.startRangingBeaconsInRegion(self.beaconRegion)
         self.preventDoubleCall = true
         
-        let now = self.getCunnrentDate("yyyy-MM-dd")
-        if(self.defaults.objectForKey(now + ":attendanceTime") == nil) {
+        //let now = self.getCunnrentDate("yyyy-MM-dd")
+        //if(self.defaults.objectForKey(now + ":attendanceTime") == nil) {
         
             let params = ["email": defaults.objectForKey("email")!, "in_region":"true"]
-            self.timecardModel.attendance(params) {(clockoutProcessed)->() in
+            self.timecardModel.attendance(params) {(attendanceProcessed)->() in
                 
                 //出勤処理をした場合
-                if(clockoutProcessed) {
+                if(attendanceProcessed) {
                     let attendanceTime = self.getCunnrentTime()
                     self.lblAttendanceTime.text = attendanceTime
                     
+                    /*
                     let calendar = NSCalendar(identifier: NSCalendarIdentifierGregorian)
                     let comp = NSDateComponents()
                     comp.day = -1
@@ -192,9 +196,10 @@ class ViewController: UIViewController, CLLocationManagerDelegate, NSURLSessionD
                     dateFormatter.locale = NSLocale(localeIdentifier: "ja_JP")
                     dateFormatter.dateFormat = "yyyy-MM-dd"
                     let y = dateFormatter.stringFromDate(d)
-                    self.defaults.removeObjectForKey(y+":attendanceTime")
                     
+                    self.defaults.removeObjectForKey(y+":attendanceTime")
                     self.defaults.setObject(attendanceTime, forKey: now + ":attendanceTime")
+                    */
                     
                 }
                 self.attendanceFlg = true
@@ -203,7 +208,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate, NSURLSessionD
                 //ログ登録用
                 self.timecardModel.record(params)
             }
-        }
+        //}
     
         self.lblStatus.text = "ビーコン領域内"
     }
@@ -222,15 +227,15 @@ class ViewController: UIViewController, CLLocationManagerDelegate, NSURLSessionD
         //出勤チェックをしてから退勤処理を実行する
         let params = ["email": defaults.objectForKey("email")!, "in_region":"false"]
         
-        let now = self.getCunnrentDate("yyyy-MM-dd")
-        if(self.defaults.objectForKey(now + ":clockoutTime") == nil) {
+        //let now = self.getCunnrentDate("yyyy-MM-dd")
+        //if(self.defaults.objectForKey(now + ":clockoutTime") == nil) {
             self.timecardModel.clockout(params) { (clockoutProcessed)->() in
                 
                 if(clockoutProcessed) {
                     let clockoutTime = self.getCunnrentTime()
                     self.lblClockoutTime.text = clockoutTime
                     
-                    
+                    /*
                     let calendar = NSCalendar(identifier: NSCalendarIdentifierGregorian)
                     let comp = NSDateComponents()
                     comp.day = -1
@@ -243,13 +248,14 @@ class ViewController: UIViewController, CLLocationManagerDelegate, NSURLSessionD
 
                     
                     self.defaults.setObject(clockoutTime, forKey: now + ":clockoutTime")
+                    */
                 }
                 self.preventDoubleCall = false
                 
                 
                 //ログ登録用
                 self.timecardModel.record(params)
-            }
+            //}
         }
         
         self.lblStatus.text = "ビーコン領域外"
